@@ -1,9 +1,6 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+{ podmanRemotePackage }:
+
+{ config, lib, ... }:
 
 with lib;
 
@@ -17,7 +14,7 @@ in
     package = mkOption {
       type = types.package;
       description = "The podman-remote package to use";
-      default = pkgs.podman-remote;
+      default = podmanRemotePackage;
     };
 
     socketPath = mkOption {
