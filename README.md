@@ -19,9 +19,11 @@ This is useful when you want to access a Podman machine running on a different m
 ### home-manager
 
 ```nix
-{ inputs, ... }:
-
 {
+  inputs = {
+    podman-remote.url = "github:pietersp/podman-remote";
+  };
+
   imports = [ inputs.podman-remote.lib.homeManagerModule ];
 
   programs.podman-remote = {
@@ -33,9 +35,11 @@ This is useful when you want to access a Podman machine running on a different m
 ### NixOS
 
 ```nix
-{ inputs, ... }:
-
 {
+  inputs = {
+    podman-remote.url = "github:pietersp/podman-remote";
+  };
+
   imports = [ inputs.podman-remote.lib.nixosModule ];
 
   programs.podman-remote = {
@@ -81,20 +85,20 @@ programs.podman-remote = {
 ### Via nix profile
 
 ```bash
-nix profile install github:yourusername/podman-remote
+nix profile install github:pietersp/podman-remote
 ```
 
 ### Using nix shell
 
 ```bash
-nix shell github:yourusername/podman-remote
+nix shell github:pietersp/podman-remote
 podman --version
 ```
 
 ### Using nix run
 
 ```bash
-nix run github:yourusername/podman-remote -- --version
+nix run github:pietersp/podman-remote -- --version
 ```
 
 ### As flake input
@@ -102,7 +106,7 @@ nix run github:yourusername/podman-remote -- --version
 ```nix
 {
   inputs = {
-    podman-remote.url = "github:yourusername/podman-remote";
+    podman-remote.url = "github:pietersp/podman-remote";
   };
 }
 ```
@@ -112,9 +116,11 @@ nix run github:yourusername/podman-remote -- --version
 You can use this as an overlay to replace the Podman package:
 
 ```nix
-{ inputs, ... }:
-
 {
+  inputs = {
+    podman-remote.url = "github:pietersp/podman-remote";
+  };
+
   nixpkgs.overlays = [
     (self: super: {
       podman-remote = inputs.podman-remote.packages.${self.system}.podman-remote;
@@ -143,10 +149,10 @@ Users can pin to a specific version:
 
 ```nix
 # Pin to a specific tag
-podman-remote.url = "github:yourusername/podman-remote/v5.8.0";
+podman-remote.url = "github:pietersp/podman-remote/v5.8.0";
 
 # Or pin to a specific commit
-podman-remote.url = "github:yourusername/podman-remote";
+podman-remote.url = "github:pietersp/podman-remote";
 podman-remote.ref = "main";
 podman-remote_rev = "abc123...";
 ```
