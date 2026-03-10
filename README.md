@@ -24,7 +24,7 @@ This is useful when you want to access a Podman machine running on a different m
     podman-remote.url = "github:pietersp/podman-remote";
   };
 
-  imports = [ inputs.podman-remote.lib.homeManagerModule ];
+  imports = [ "${inputs.podman-remote}/home-manager.nix" ];
 
   programs.podman-remote = {
     enable = true;
@@ -41,7 +41,7 @@ This is useful when you want to access a Podman machine running on a different m
     podman-remote.url = "github:pietersp/podman-remote";
   };
 
-  imports = [ inputs.podman-remote.lib.nixosModule ];
+  imports = [ "${inputs.podman-remote}/nixos.nix" ];
 
   programs.podman-remote = {
     enable = true;
@@ -51,16 +51,15 @@ This is useful when you want to access a Podman machine running on a different m
 ```
 
 This will:
-- Install the podman-remote binary
 - Set `PODMAN_HOST` to connect to WSL's podman-machine-default by default
-- Add a `podman` alias
+- Install the podman-remote binary
 
 ## Configuration options
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `enable` | bool | `false` | Enable podman-remote |
-| `package` | package | **required** | The podman-remote package (from flake) |
+| `package` | package | `null` | The podman-remote package (from flake) |
 | `socketPath` | string | `unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-root.sock` | Path to Podman socket |
 | `hostname` | string | `""` | Remote SSH host (empty = Unix socket) |
 
@@ -70,7 +69,6 @@ Rootless Podman in WSL:
 ```nix
 programs.podman-remote = {
   enable = true;
-  package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   socketPath = "unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-user.sock";
 };
 ```
@@ -79,7 +77,6 @@ SSH to remote host:
 ```nix
 programs.podman-remote = {
   enable = true;
-  package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   hostname = "192.168.1.100";
 };
 ```
