@@ -1,20 +1,21 @@
-{ podmanRemotePackage }:
-
-{ config, lib, ... }:
-
-with lib;
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
+  inherit (lib) mkIf mkOption types;
   cfg = config.programs.podman-remote;
 in
 {
   options.programs.podman-remote = {
-    enable = mkEnableOption "podman-remote client";
+    enable = lib.mkEnableOption "podman-remote client";
 
     package = mkOption {
       type = types.package;
       description = "The podman-remote package to use";
-      default = podmanRemotePackage;
     };
 
     socketPath = mkOption {

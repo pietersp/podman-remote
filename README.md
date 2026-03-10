@@ -28,6 +28,7 @@ This is useful when you want to access a Podman machine running on a different m
 
   programs.podman-remote = {
     enable = true;
+    package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   };
 }
 ```
@@ -44,6 +45,7 @@ This is useful when you want to access a Podman machine running on a different m
 
   programs.podman-remote = {
     enable = true;
+    package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   };
 }
 ```
@@ -58,9 +60,9 @@ This will:
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `enable` | bool | `false` | Enable podman-remote |
+| `package` | package | **required** | The podman-remote package (from flake) |
 | `socketPath` | string | `unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-root.sock` | Path to Podman socket |
 | `hostname` | string | `""` | Remote SSH host (empty = Unix socket) |
-| `package` | package | flake's package | Custom podman-remote package |
 
 ### Examples
 
@@ -68,6 +70,7 @@ Rootless Podman in WSL:
 ```nix
 programs.podman-remote = {
   enable = true;
+  package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   socketPath = "unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-user.sock";
 };
 ```
@@ -76,6 +79,7 @@ SSH to remote host:
 ```nix
 programs.podman-remote = {
   enable = true;
+  package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   hostname = "192.168.1.100";
 };
 ```

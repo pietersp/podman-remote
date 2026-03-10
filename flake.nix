@@ -94,15 +94,9 @@
       }
     )
     // {
-      lib = flake-utils.lib.eachDefaultSystem (
-        system:
-        let
-          pkg = self.packages.${system}.podman-remote;
-        in
-        {
-          homeManagerModule = (import ./home-manager.nix) { podmanRemotePackage = pkg; };
-          nixosModule = (import ./nixos.nix) { podmanRemotePackage = pkg; };
-        }
-      );
+      lib = {
+        homeManagerModule = import ./home-manager.nix;
+        nixosModule = import ./nixos.nix;
+      };
     };
 }
