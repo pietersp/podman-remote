@@ -16,14 +16,10 @@ This is useful when you want to access a Podman machine running on a different m
 
 ## Quick start (recommended)
 
-### home-manager
+Add to your home-manager configuration (e.g., `home/pieter/default.nix`):
 
 ```nix
-{
-  inputs = {
-    podman-remote.url = "github:pietersp/podman-remote";
-  };
-
+{ inputs, ... }: {
   imports = [ "${inputs.podman-remote}/home-manager.nix" ];
 
   programs.podman-remote = {
@@ -33,14 +29,10 @@ This is useful when you want to access a Podman machine running on a different m
 }
 ```
 
-### NixOS
+Or for NixOS module configuration:
 
 ```nix
-{
-  inputs = {
-    podman-remote.url = "github:pietersp/podman-remote";
-  };
-
+{ inputs, ... }: {
   imports = [ "${inputs.podman-remote}/nixos.nix" ];
 
   programs.podman-remote = {
@@ -69,6 +61,7 @@ Rootless Podman in WSL:
 ```nix
 programs.podman-remote = {
   enable = true;
+  package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   socketPath = "unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-user.sock";
 };
 ```
@@ -77,6 +70,7 @@ SSH to remote host:
 ```nix
 programs.podman-remote = {
   enable = true;
+  package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
   hostname = "192.168.1.100";
 };
 ```
@@ -109,6 +103,9 @@ nix run github:pietersp/podman-remote -- --version
   inputs = {
     podman-remote.url = "github:pietersp/podman-remote";
   };
+
+  # Use the package
+  packages.x86_64-linux.default = inputs.podman-remote.packages.x86_64-linux.podman-remote;
 }
 ```
 
@@ -146,16 +143,20 @@ export PODMAN_HOST=unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-
 
 ## Pinning versions
 
-Users can pin to a specific version:
+Users can pin to a specific version in their `inputs`:
 
 ```nix
-# Pin to a specific tag
-podman-remote.url = "github:pietersp/podman-remote/v5.8.0";
+{
+  inputs = {
+    # Pin to a specific tag
+    podman-remote.url = "github:pietersp/podman-remote/v5.8.0";
 
-# Or pin to a specific commit
-podman-remote.url = "github:pietersp/podman-remote";
-podman-remote.ref = "main";
-podman-remote_rev = "abc123...";
+    # Or pin to a specific commit
+    # podman-remote.url = "github:pietersp/podman-remote";
+    # podman-remote.ref = "main";
+    # podman-remote_rev = "abc123...";
+  };
+}
 ```
 
 ## Maintainer Notes
