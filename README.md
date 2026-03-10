@@ -52,8 +52,15 @@ This will:
 |--------|------|---------|-------------|
 | `enable` | bool | `false` | Enable podman-remote |
 | `package` | package | `null` | The podman-remote package (from flake) |
-| `socketPath` | string | `unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-root.sock` | Path to Podman socket |
-| `hostname` | string | `""` | Remote SSH host (empty = Unix socket) |
+| `socketPath` | string | see below | Path to Podman socket |
+| `hostname` | string | "" | Remote SSH host (leave empty for Unix socket) |
+
+**Default socket path:** `unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-root.sock`
+
+The `package` option requires the package from the flake, e.g.:
+```nix
+package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
+```
 
 ### Examples
 
@@ -94,19 +101,6 @@ podman --version
 
 ```bash
 nix run github:pietersp/podman-remote -- --version
-```
-
-### As flake input
-
-```nix
-{
-  inputs = {
-    podman-remote.url = "github:pietersp/podman-remote";
-  };
-
-  # Use the package
-  packages.x86_64-linux.default = inputs.podman-remote.packages.x86_64-linux.podman-remote;
-}
 ```
 
 ## Overlays
