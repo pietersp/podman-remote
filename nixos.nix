@@ -44,8 +44,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = mkIf (cfg.package != null) [ cfg.package ]
-      ++ lib.optionals cfg.compose.enable [ pkgs.podman-compose ];
+    environment.systemPackages = let
+      packages = []
+        ++ lib.optional (cfg.package != null) cfg.package
+        ++ lib.optionals cfg.compose.enable [ pkgs.podman-compose ];
+    in packages;
 
     environment.sessionVariables = {
       PODMAN_HOST = if cfg.hostname != "" then "ssh://${cfg.hostname}" else cfg.socketPath;

@@ -11,6 +11,7 @@ let
     mkEnableOption
     mkPackageOption
     mkOption
+    optionals
     ;
   cfg = config.programs.podman-remote;
 in
@@ -44,8 +45,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = mkIf (cfg.package != null) [ cfg.package ]
-      ++ lib.optionals cfg.compose.enable [ pkgs.podman-compose ];
+    home.packages = let
+      packages = []
+        ++ lib.optional (cfg.package != null) cfg.package
+        ++ lib.optionals cfg.compose.enable [ pkgs.podman-compose ];
+    in packages;
 
     home.sessionVariables = {
       PODMAN_HOST = if cfg.hostname != "" then "ssh://${cfg.hostname}" else cfg.socketPath;
