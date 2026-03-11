@@ -4,7 +4,7 @@
 
 ## What is this?
 
-This flake builds the `podman-remote` binary from GitHub releases. It's a **statically linked** Podman client that can connect to a remote Podman machine over SSH or Unix socket.
+This flake builds the `podman-remote` binary from GitHub releases. I use podman on my Windows machine together with WSL need podman to be accessible from my WSL instance [See this](https://podman-desktop.io/docs/podman/accessing-podman-from-another-wsl-instance) . To avoid having to manually install the tarball on my WSL instance I made this. The tarball contains a **statically linked** Podman client that can connect to a remote Podman machine over SSH or Unix socket. This downloads the tarball and makes it available to your WSL instance using Nix / Home manager.
 
 ## Use case
 
@@ -12,9 +12,14 @@ This is useful when you want to access a Podman machine running on a different m
 
 - **WSL**: Access Podman Desktop's Podman machine from another WSL distribution on Windows
 - **Remote servers**: Connect to a Podman instance running on a remote Linux server
-- **CI/CD**: Use Podman client in environments where installing Podman normally isn't practical
 
 ## Quick start (recommended)
+Add the following to your flake inputs:
+```nix
+{
+  inputs.podman-remote.url = "github:pietersp/podman-remote";
+}
+```
 
 Add to your home-manager configuration (e.g., `home/pieter/default.nix`):
 
