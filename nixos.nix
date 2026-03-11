@@ -33,10 +33,19 @@ in
       description = "Remote hostname for SSH connections (leave empty for Unix socket)";
       example = "192.168.1.100";
     };
+
+    compose = {
+      enable = mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "Enable podman-compose support";
+      };
+    };
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = mkIf (cfg.package != null) [ cfg.package ];
+    environment.systemPackages = mkIf (cfg.package != null) [ cfg.package ]
+      ++ lib.optionals cfg.compose.enable [ pkgs.podman-compose ];
 
     environment.sessionVariables = {
       PODMAN_HOST = if cfg.hostname != "" then "ssh://${cfg.hostname}" else cfg.socketPath;

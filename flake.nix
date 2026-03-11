@@ -75,15 +75,19 @@
               mkdir -p $out/bin
               mv ${release.binPath} $out/bin/podman
               chmod +x $out/bin/podman
+
+              ln -s ${pkgs.podman-compose}/bin/podman-compose $out/bin/podman-compose
             '';
 
             meta = with pkgs.lib; {
-              description = "Podman remote client";
+              description = "Podman remote client with podman-compose";
               homepage = "https://podman.io";
               license = licenses.asl20;
               platforms = platforms.all;
             };
           };
+
+          podman-compose = pkgs.podman-compose;
         };
 
         apps = {

@@ -14,6 +14,9 @@ This is useful when you want to access a Podman machine running on a different m
 - **Remote servers**: Connect to a Podman instance running on a remote Linux server
 
 ## Quick start (recommended)
+
+**Note:** `podman compose` support is enabled by default. Set `compose = false` to disable it.
+
 Add the following to your flake inputs:
 ```nix
 {
@@ -50,6 +53,7 @@ Or for NixOS module configuration:
 This will:
 - Set `PODMAN_HOST` to connect to WSL's podman-machine-default by default
 - Install the podman-remote binary
+- Install podman-compose by default (set `compose.enable = false` to disable)
 
 ## Configuration options
 
@@ -59,6 +63,7 @@ This will:
 | `package` | package | `null` | The podman-remote package (from flake) |
 | `socketPath` | string | see below | Path to Podman socket |
 | `hostname` | string | "" | Remote SSH host (leave empty for Unix socket) |
+| `compose.enable` | bool | `true` | Enable podman-compose support |
 
 **Default socket path:** `unix:///mnt/wsl/podman-sockets/podman-machine-default/podman-root.sock`
 
@@ -87,6 +92,15 @@ programs.podman-remote = {
 };
 ```
 
+Disable podman-compose:
+```nix
+programs.podman-remote = {
+  enable = true;
+  package = inputs.podman-remote.packages.x86_64-linux.podman-remote;
+  compose.enable = false;
+};
+```
+
 ## Installation (without module)
 
 ### Via nix profile
@@ -100,6 +114,7 @@ nix profile install github:pietersp/podman-remote-nix
 ```bash
 nix shell github:pietersp/podman-remote-nix
 podman --version
+podman compose up
 ```
 
 ### Using nix run
