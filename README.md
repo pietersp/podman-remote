@@ -17,7 +17,7 @@ This is useful when you want to access a Podman machine running on a different m
 Add the following to your flake inputs:
 ```nix
 {
-  inputs.podman-remote.url = "github:pietersp/podman-remote";
+  inputs.podman-remote.url = "github:pietersp/podman-remote-nix";
 }
 ```
 
@@ -92,20 +92,20 @@ programs.podman-remote = {
 ### Via nix profile
 
 ```bash
-nix profile install github:pietersp/podman-remote
+nix profile install github:pietersp/podman-remote-nix
 ```
 
 ### Using nix shell
 
 ```bash
-nix shell github:pietersp/podman-remote
+nix shell github:pietersp/podman-remote-nix
 podman --version
 ```
 
 ### Using nix run
 
 ```bash
-nix run github:pietersp/podman-remote -- --version
+nix run github:pietersp/podman-remote-nix -- --version
 ```
 
 ## Overlays
@@ -115,7 +115,7 @@ You can use this as an overlay to replace the Podman package:
 ```nix
 {
   inputs = {
-    podman-remote.url = "github:pietersp/podman-remote";
+    podman-remote.url = "github:pietersp/podman-remote-nix";
   };
 
   nixpkgs.overlays = [
@@ -148,10 +148,10 @@ Users can pin to a specific version in their `inputs`:
 {
   inputs = {
     # Pin to a specific tag
-    podman-remote.url = "github:pietersp/podman-remote/v5.8.0";
+    podman-remote.url = "github:pietersp/podman-remote-nix/v5.8.0";
 
     # Or pin to a specific commit
-    # podman-remote.url = "github:pietersp/podman-remote";
+    # podman-remote.url = "github:pietersp/podman-remote-nix";
     # podman-remote.ref = "main";
     # podman-remote_rev = "abc123...";
   };
